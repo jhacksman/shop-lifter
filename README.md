@@ -1,6 +1,21 @@
 # shop-lifter
 A toy implementation of the shoppie concept, using Waveshare RoArm-M3 5+1DoF Pro robotic arms
 
+## Key Technologies
+
+### Active Inference
+A biologically inspired framework that continuously minimizes prediction errors (or free energy) to adapt actions in uncertain environments. It offers a more natural, brain-like way for robots to learn and make decisions.
+
+### ReLU (Rectified Linear Unit)
+A simple yet powerful activation function (f(x)=max(0,x)) that supports efficient, non-linear transformations within neural networks. Its simplicity helps maintain fast, stable training, which is essential for complex systems.
+
+### Multi-Head Attention
+A mechanism from transformer architectures that allows the system to focus on different aspects of multi-modal inputs (like video and sensor data) simultaneously. By processing various "heads" in parallel, it builds a rich, contextual embedding of the environment.
+
+When you integrate these elements—with an encoder-decoder architecture that fuses camera data, IMU readings, and other sensor inputs, and then predicts future joint positions—the result is a system capable of complex motion planning. Human demonstrations and performance grading further refine this process, ultimately guiding the robot toward ideal, context-aware behavior.
+
+Together, these technologies promise a new generation of robots that can perceive, adapt, and act with human-like intuition and robustness.
+
 ## Prompt
 
 ```
