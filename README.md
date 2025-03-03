@@ -26,6 +26,7 @@ Include in your output the complete source code with inline comments and docstri
    - BERT Paper: https://doi.org/10.48550/arXiv.1810.04805
    - Transformer Overview: https://blogs.nvidia.com/blog/what-is-a-transformer-model/
    - ReLU Activation Function: https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
+   - Titans: Learning to Memorize at Test Time: https://arxiv.org/abs/2501.00663
 
 Generate the code in small, testable pieces with detailed comments, starting with the model definition modules. The solution should be comprehensive enough to serve as a starting framework for further development.
 ```
