@@ -1,1 +1,0 @@
-Transformer Overview: https://blogs.nvidia.com/blog/what-is-a-transformer-model/
