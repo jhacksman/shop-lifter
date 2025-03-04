@@ -47,6 +47,9 @@ StaticJsonDocument<256> jsonInfoHttp;
 // Include the follower position feedback system
 #include "follower_position_feedback.h"
 
+// Command ID for setting arm identity
+#define CMD_SET_ARM_IDENTITY 400
+
 
 void setup() {
   Serial.begin(115200);
@@ -57,7 +60,7 @@ void setup() {
 
   initOLED();
   screenLine_0 = "RoArm-M3";
-  screenLine_1 = "version: 0.85"; // Updated version
+  screenLine_1 = "version: 0.86"; // Updated version with arm identity
   screenLine_2 = "starting...";
   screenLine_3 = "";
   oled_update();
@@ -134,6 +137,9 @@ void setup() {
   oled_update();
   if(InfoPrint == 1){Serial.println("ESP-NOW init.");}
   initEspNow();
+
+  // Initialize arm identity
+  initArmIdentity();
 
   screenLine_3 = "RoArm-M3 started";
   oled_update();

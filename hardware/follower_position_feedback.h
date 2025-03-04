@@ -3,23 +3,86 @@
  * 
  * This module enables RoArm-M3 Pro follower arms to output their actual servo positions
  * via Serial (USB-C) when the arm is in follower mode. The data is serialized as JSON
- * for easy processing by the NVIDIA Jetson Orin Nano.
+ * with arm identity for easy processing by the NVIDIA Jetson Orin Nano.
  */
 
 #ifndef FOLLOWER_POSITION_FEEDBACK_H
 #define FOLLOWER_POSITION_FEEDBACK_H
 
+#include <Preferences.h>
+
 // Position data reporting frequency (Hz)
 #define POSITION_REPORT_FREQUENCY 50
+
+// Default identity if not configured
+String armIdentity = "unknown";
 
 // Timestamp for position reporting
 unsigned long lastPositionReportTime = 0;
 
 /**
+ * Set arm identity and store in flash memory
+ * 
+ * @param identity The identity string ("follower_left" or "follower_right")
+ */
+void setArmIdentity(String identity) {
+  // Store identity in non-volatile memory
+  Preferences preferences;
+  preferences.begin("arm_config", false);
+  preferences.putString("arm_id", identity);
+  preferences.end();
+  
+  // Update current identity
+  armIdentity = identity;
+  
+  // Update OLED display
+  screenLine_3 = "Arm ID: " + identity;
+  oled_update();
+  
+  // Log identity change
+  if (InfoPrint == 1) {
+    Serial.println("Arm identity set to: " + identity);
+  }
+}
+
+/**
+ * Get arm identity from flash memory
+ * 
+ * @return The stored identity string, or "unknown" if not set
+ */
+String getArmIdentity() {
+  // Read identity from non-volatile memory
+  Preferences preferences;
+  preferences.begin("arm_config", true);
+  String identity = preferences.getString("arm_id", "unknown");
+  preferences.end();
+  
+  return identity;
+}
+
+/**
+ * Initialize arm identity
+ * 
+ * This should be called during setup to load the stored identity
+ */
+void initArmIdentity() {
+  // Load identity from flash
+  armIdentity = getArmIdentity();
+  
+  // Show on OLED
+  screenLine_3 = "Arm ID: " + armIdentity;
+  oled_update();
+  
+  if (InfoPrint == 1) {
+    Serial.println("Arm identity: " + armIdentity);
+  }
+}
+
+/**
  * Send position data via serial
  * 
  * This function reads the actual servo positions and outputs them
- * in JSON format to the Serial (USB-C) port
+ * in JSON format to the Serial (USB-C) port, including arm identity
  */
 void sendPositionData() {
   // Get current servo positions from feedback
@@ -27,6 +90,9 @@ void sendPositionData() {
   
   // Create JSON document
   StaticJsonDocument<256> posData;
+  
+  // Add arm identifier
+  posData["arm_id"] = armIdentity;
   
   // Add timestamp (milliseconds since startup)
   posData["t"] = millis();
@@ -43,6 +109,7 @@ void sendPositionData() {
   posData["x"] = lastX;
   posData["y"] = lastY;
   posData["z"] = lastZ;
+  posData["tilt"] = lastT;  // Tilt angle
   
   // Serialize and send the data
   serializeJson(posData, Serial);
