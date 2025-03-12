@@ -6,6 +6,13 @@
  * 
  * This sketch initializes the camera and implements a USB webcam interface
  * using the ESP32S3's USB capabilities.
+ * 
+ * Board settings:
+ * - Board: "XIAO_ESP32S3"
+ * - USB Mode: "USB-OTG"
+ * - USB CDC On Boot: "Enabled"
+ * - Partition Scheme: "Huge APP (3MB No OTA/1MB SPIFFS)"
+ * - PSRAM: "QSPI PSRAM"
  */
 
 #include "esp_camera.h"
