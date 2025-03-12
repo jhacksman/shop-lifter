@@ -24,9 +24,19 @@ A lightweight USB webcam implementation for the XIAO ESP32S3 Sense board. This A
 
 1. Install the Arduino IDE
 2. Add ESP32 board support to Arduino IDE
+   - In Arduino IDE: File > Preferences > Additional Board Manager URLs
+   - Add: `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`
+   - Tools > Board > Boards Manager > Search for "esp32" and install
 3. Install the ESP32 camera library
+   - Sketch > Include Library > Manage Libraries
+   - Search for "esp32-camera" and install
 4. Open the `xiao_esp32s3_webcam.ino` sketch
-5. Select "XIAO_ESP32S3" from the Arduino IDE board menu
+5. Configure board settings:
+   - Board: "XIAO_ESP32S3"
+   - USB Mode: "USB-OTG"
+   - USB CDC On Boot: "Enabled"
+   - Partition Scheme: "Huge APP (3MB No OTA/1MB SPIFFS)"
+   - PSRAM: "QSPI PSRAM"
 6. Upload the sketch to your XIAO ESP32S3 Sense board
 
 ## Usage
