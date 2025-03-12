@@ -138,7 +138,7 @@ void loop() {
   }
   
   // Process the frame
-  if (USBSerial.connected()) {
+  if (USBSerial) {  // Use the boolean operator to check if USB is connected
     // Send frame size first
     USBSerial.write((uint8_t*)&fb->len, 4);
     
