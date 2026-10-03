@@ -1,0 +1,34 @@
+name: Cart simulation
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  simulation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r control_panel/requirements-dev.txt
+      - run: python -m pytest -q
+      - run: ruff check hardware/cart control_panel/server.py tests/test_cart_control.py
+      - run: ruff format --check hardware/cart control_panel/server.py tests/test_cart_control.py
+      - run: mypy --ignore-missing-imports --check-untyped-defs hardware/cart control_panel/server.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: control_panel/frontend/package-lock.json
+      - run: npm ci --ignore-scripts
+        working-directory: control_panel/frontend
+      - run: npm test -- --watchAll=false --runInBand
+        working-directory: control_panel/frontend
+        env:
+          CI: 'true'
+      - run: npm run build
+        working-directory: control_panel/frontend
+        env:
+          CI: 'true'
