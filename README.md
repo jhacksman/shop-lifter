@@ -1,5 +1,10 @@
 # shop-lifter
-A toy implementation of the shoppie concept, using Waveshare RoArm-M3 5+1DoF Pro robotic arms
+A robotic shopping cart with a brushless-DC/ODrive mobile base and Waveshare RoArm-M3 5+1DoF Pro robotic arms above it.
+
+This is the canonical home for the consolidated shop-lifter/shoppy work.
+Start with the [simulation control panel and migration guide](docs/CONSOLIDATION.md).
+The new runtime does not connect to hardware; existing arm and camera code remains
+intact. `legacy/shoppy/` preserves original source and is not a startup path.
 
 ## Key Technologies
 
